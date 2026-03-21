@@ -33,6 +33,7 @@ const doneTask = (id:number):void => { // 완료 리스트로 이동
     doneList.appendChild(selectedTask);
 
     const button = selectedTask.querySelector(`#done-button-${id}`) as Element; // 완료 버튼에서 삭제 버튼으로 변경
+    button.className = `todo-list__delete-button`
     button.id = `delete-button-${id}`;
     button.innerHTML = '삭제';
     button.addEventListener("click", () => deleteTask(id)); // 여기서 에러남,,, 이벤트 리스너가 두 번 들어간 것 같은데 한 번 빼는 법을 모르겠음

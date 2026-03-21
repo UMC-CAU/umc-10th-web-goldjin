@@ -16,7 +16,7 @@ body {
 
 .card {
     background-color: white;
-    width: 50%;
+    width: 600px;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0,0,0.3);
@@ -104,4 +104,8 @@ button {
     font-size: 10px;
     box-shadow: 1px 1px 3px rgba(0, 0,0,0.2);
     cursor: pointer;
+}
+
+.todo-list__delete-button {
+    background-color: #dd3131;
 }
