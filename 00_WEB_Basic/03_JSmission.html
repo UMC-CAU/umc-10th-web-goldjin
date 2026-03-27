@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do List</title>
+  <style>
+    body {
+        background-color: #f1f6fa;
+    }
+    header {
+        padding: 70px 0;
+        text-align: center;
+    }
+    hr {
+        border: 1.5px solid lightgray;
+        width: 90%;
+    }
+    main {
+        margin-top: 20px;
+        padding: 0 20px;
+        display: grid;
+        grid-template-areas: 
+        "input input"
+        "todolist donelist";
+
+    }
+    section {
+        margin: 10px 0;
+    }
+    .todolist, .donelist, .input {
+        text-align: center;
+    }
+    .input {
+        grid-area: input;
+    }
+    input {
+        width: 80%;
+        height: 50px;
+        padding-left: 15px;
+        border: 2px solid black;
+    }
+    input::placeholder {
+        color: rgb(209, 209, 209);
+        font-size: 17px;
+        font-style:italic;
+
+    }
+    .list--title {
+        font-weight: bold;
+        border-bottom: 3px solid lightgray;
+    }
+    .todolist {
+        grid-area: todolist;
+    }
+    .donelist {
+        grid-area: donelist;
+    }
+    ul {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    li {
+        margin: 10px 0;
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+        text-align: left;
+        list-style-type: none;
+        font-weight: bold;
+        border-bottom: 3px solid lightgray;
+    }
+    button {
+        border: 0;
+        background-color: lightgray;
+        margin-bottom: 2px;
+    }
+  </style>
+</head>
+
+<body>
+    <header>
+        <h1>UMC Study Plan</h1>
+    </header>
+    <hr>
+    <main>
+    <section class="input">
+        <input id="inputtext" type="text" placeholder="스터디 계획을 작성해보세요!">
+    </section>
+    <section class="todolist">
+        <span class="list--title">해야 할 일</span> <!-- <p> 태그 안에는 인라인블록만 쓸 수 있다....-->
+        <ul class="todolist--list">
+            
+        </ul>
+    </section>
+    <section class="donelist">
+        <span class="list--title">해낸 일</span>
+        <ul class="donelist--list">
+        </ul>
+    </section>
+</main>  
+</body>
+<script>
+    function addList (name) {
+        const list = document.querySelector(".todolist--list");
+        list.insertAdjacentHTML(
+            'beforeend',
+            `
+            <li>
+            <span>${name}</span>
+            <button class="complete-button">완료</button>
+            </li>
+            `
+        )
+    }
+
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('complete-button')){
+            li = e.target.parentElement
+            li.lastElementChild.setAttribute('class','delete-button')
+            li.lastElementChild.innerText = "삭제";
+            list = document.querySelector(".donelist--list")
+            list.appendChild(li)
+        }
+        else if (e.target.classList.contains('delete-button') ) {
+            li = e.target.parentElement
+            li.remove();
+        }
+        
+    })
+
+    const input = document.querySelector("#inputtext");
+    input.addEventListener('keydown', (e) => {
+            if (e.key == 'Enter' && input.value != '') {
+                addList(input.value);
+                input.value = '';
+
+            }
+        }
+    )
+
+    
+</script>
+</html>
