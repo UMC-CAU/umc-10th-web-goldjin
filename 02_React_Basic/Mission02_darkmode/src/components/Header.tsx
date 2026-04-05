@@ -9,6 +9,7 @@ const Header = () => {
     ${theme == 'dark'
         ? 'bg-white text-black'
         : 'bg-black text-white'}`
+    
     return (
         <header>
             <span>Header </span>
