@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getMovie, getMovieCredit, getMovieInfo } from "../utils/movieApi";
-import type { CastCrew, ListType, Movie, MovieInfo } from "../types/movie";
+import type { ListType } from "../types/movie";
 
 
 interface FetchParams {

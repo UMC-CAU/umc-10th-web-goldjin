@@ -5,9 +5,14 @@ import { LoadingSpinner } from "./loadingSpinner";
 import { useFetch } from "../hooks/useFetch";
 import { useEffect } from "react";
 
+interface FetchType {
+    movies: Movie[]
+    maxPage: number
+}
+
 const MovieGallary = ({type}: {type:ListType}) => {
     const {page, setMaxPage} = usePage();
-    const {data, isError, isPending} = useFetch<{ movies: Movie[], maxPage: number }>({dataType: "movie", page, type})
+    const {data, isError, isPending} = useFetch<FetchType>({dataType: "movie", page, type})
 
     useEffect(() => {
         if (data)
