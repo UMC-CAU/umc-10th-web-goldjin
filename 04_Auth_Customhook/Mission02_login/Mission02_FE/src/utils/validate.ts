@@ -3,6 +3,7 @@ export interface UserSigninInfo {
     password: string;
 }
 
+
 const validateUser = (values: UserSigninInfo) => {
     const errors = {
         email: "",
@@ -20,28 +21,30 @@ const validateUser = (values: UserSigninInfo) => {
     return errors;
 }
 
+
 const validateSignin = (values: UserSigninInfo) => {
     return validateUser(values);
 }
 
 
 export interface UserSignupInfo extends UserSigninInfo {
-    passwordConfirm: string;
+    passwordCheck: string;
+    name: string;
 }
+
 
 const validateSignup = (values: UserSignupInfo) => {
     const errors = {
         ...validateUser(values),
-        passwordConfirm: "",
+        passwordCheck: "",
     };
-
     
-    if (values.password !== values.passwordConfirm) {
-        errors.passwordConfirm = "비밀번호가 일치하지 않습니다.";
+    if (values.password !== values.passwordCheck) {
+        errors.passwordCheck = "비밀번호가 일치하지 않습니다.";
     };
-
 
     return errors;
 }
+
 
 export {validateSignin, validateSignup};

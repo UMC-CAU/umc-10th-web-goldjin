@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { validateSignin, type UserSigninInfo } from "../utils/validate"
 import useForm from "../hooks/useForm"
 
+
 const LoginPage = () => {
     const {errors, touched, getInputProps} = useForm<UserSigninInfo>({
         initialValues: {
@@ -13,6 +14,7 @@ const LoginPage = () => {
 
 
     const navigate = useNavigate()
+   
 
     return (
         <div className="w-70 mt-[15vh]">
@@ -20,6 +22,8 @@ const LoginPage = () => {
                 <button className="text-md mr-10 hover:cursor-pointer" onClick={async () => await navigate(-1)}>〈</button>
                 <h1 className="col-span-2 text-xl">로그인</h1>
             </header>
+
+
             <main className="flex flex-col items-left gap-4">
                 <div className="inputClass text-center"> 구글 로그인 </div>
                 
