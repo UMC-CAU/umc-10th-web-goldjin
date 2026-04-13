@@ -19,3 +19,4 @@ export const getMyInfo = async () => {
     const { data } = await axiosInstance.get("/v1/auth/me");
     return data;
 }
+
