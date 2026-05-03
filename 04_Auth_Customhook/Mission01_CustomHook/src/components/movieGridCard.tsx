@@ -1,11 +1,7 @@
-import { useEffect, useState } from "react"
 import type { Movie } from "../types/movie"
 import { Link } from "react-router-dom"
 
 export const MovieCard = ({movie}: {movie: Movie}) => {
-    useEffect(() => {
-
-    },[])
 
     return(
         <li 

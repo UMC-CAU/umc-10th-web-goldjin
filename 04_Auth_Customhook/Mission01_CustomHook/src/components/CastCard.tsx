@@ -7,7 +7,7 @@ const CastCard = ({cast}: {cast: CastCrew}) => {
                 className="size-20 object-cover rounded-full mb-3 border-white outline" 
                 src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}></img>
             <span className="text-[12px] font-bold">{cast.name}</span>
-            <span className="text-[10px] text-gray-500">{cast.character? cast.character: cast.job}</span>
+            <span className="text-[10px] text-gray-500">{cast.character? cast.character: cast.job}</span> {/*한사람이 가족도 하고 배우도 할수가 있음..*/}
             
         </li>
     )

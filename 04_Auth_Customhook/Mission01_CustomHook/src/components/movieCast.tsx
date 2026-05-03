@@ -1,13 +1,8 @@
-import { useEffect } from "react";
 import type { CastCrew } from "../types/movie";
 import CastCard from "./CastCard";
 
 const MovieCast = ({casts}: {casts: CastCrew[]}) => {
     
-
-    useEffect(() => {
-        
-    },[])
 
     return (
         <>
