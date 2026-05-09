@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { SignupProps } from "../types/signup";
 
 
@@ -7,7 +8,7 @@ const SignupEmail = ({ watch, register, errors, setStep }: SignupProps) => {
 
     return (
         <>
-        <div className={"inputClass" + " text-center"}> 구글 로그인 </div>
+        <Link to={`${import.meta.env.VITE_SERVER_API_URL}/v1/auth/google/login`} className="inputClass text-center"> 구글 로그인 </Link>
                 
         <div className="flex w-full items-center justify-between gap-2">
             <hr className="border-gray-400 w-full" />

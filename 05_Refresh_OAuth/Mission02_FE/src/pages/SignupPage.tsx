@@ -54,8 +54,13 @@ function SignupPage() {
 
     const onSubmit: SubmitHandler<FormFields> = async (data: FormFields) => {
         const {passwordCheck, ...signupData} = data;
-        const response: ResponseSignupDto = await postSignup(signupData);
-        console.log(signupData);
+        try {
+            const response: ResponseSignupDto = await postSignup(signupData);
+            console.log(response);
+            navigate('/');
+        } catch (error) {
+            alert(error);
+        }
     };
 
     

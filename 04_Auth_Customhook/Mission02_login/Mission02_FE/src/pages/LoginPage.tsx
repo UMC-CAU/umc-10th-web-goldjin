@@ -1,16 +1,23 @@
 import { useNavigate } from "react-router-dom"
 import { validateSignin, type UserSigninInfo } from "../utils/validate"
 import useForm from "../hooks/useForm"
+import { postSignin } from "../apis/auth"
+import type { ResponseSigninDto, ResponseSignupDto } from "../types/auth"
 
 
 const LoginPage = () => {
-    const {errors, touched, getInputProps} = useForm<UserSigninInfo>({
+    const {values, errors, touched, getInputProps} = useForm<UserSigninInfo>({
         initialValues: {
             email: "",
             password: "",
         },
         validate: validateSignin
     })
+
+    const onSubmit = async (data: UserSigninInfo) => {
+            const response: ResponseSigninDto = await postSignin(data);
+            console.log(response);
+        };
 
 
     const navigate = useNavigate()
@@ -54,7 +61,7 @@ const LoginPage = () => {
 
                 <button className={` text-white py-2 rounded-sm w-full ${
                     (errors?.email || errors?.password )? "bg-[#202020]" : "hover:cursor-pointer bg-pink-500"
-                }`} >로그인</button>
+                }`} onClick={async () => await onSubmit(values)}>로그인</button>
             </main>
         </div>
     )

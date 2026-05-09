@@ -6,6 +6,8 @@ import z from "zod"
 import { SignupProfile } from "../components/SignupProfile";
 import { SignupPassword } from "../components/SignupPassword";
 import SignupEmail from "../components/SignupEmail";
+import type { ResponseSignupDto } from "../types/auth";
+import { postSignup } from "../apis/auth";
 
 
 const schema = z.object({
@@ -50,8 +52,9 @@ function SignupPage() {
     })
 
 
-    const onSubmit: SubmitHandler<FormFields> = (data: FormFields) => {
+    const onSubmit: SubmitHandler<FormFields> = async (data: FormFields) => {
         const {passwordCheck, ...signupData} = data;
+        const response: ResponseSignupDto = await postSignup(signupData);
         console.log(signupData);
     };
 
