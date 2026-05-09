@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+html, main {
+  background-color: black;
+  color: white;
+}
+
+@layer components {
+  .inputClass {
+    @apply border border-gray-400 rounded text-sm px-2 py-2 w-full;
+  }
+}

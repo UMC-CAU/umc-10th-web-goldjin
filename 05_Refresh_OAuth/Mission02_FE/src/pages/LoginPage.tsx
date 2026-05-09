@@ -1,11 +1,13 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { validateSignin, type UserSigninInfo } from "../utils/validate"
-import useForm from "../hooks/useForm"
-import { postSignin } from "../apis/auth"
-import type { ResponseSigninDto, ResponseSignupDto } from "../types/auth"
+import useForm from "../hooks/useForm";
+import { useAuth } from "../contexts/AuthContext";
 
 
 const LoginPage = () => {
+    const {login} = useAuth();
+    const navigate = useNavigate();
+    
     const {values, errors, touched, getInputProps} = useForm<UserSigninInfo>({
         initialValues: {
             email: "",
@@ -15,12 +17,10 @@ const LoginPage = () => {
     })
 
     const onSubmit = async (data: UserSigninInfo) => {
-            const response: ResponseSigninDto = await postSignin(data);
-            console.log(response);
+            await login(data);
+            await navigate("/my");
         };
 
-
-    const navigate = useNavigate()
    
 
     return (
@@ -32,7 +32,7 @@ const LoginPage = () => {
 
 
             <main className="flex flex-col items-left gap-4">
-                <div className="inputClass text-center"> 구글 로그인 </div>
+                <Link to={`${import.meta.env.VITE_SERVER_API_URL}/v1/auth/google/login`} className="inputClass text-center"> 구글 로그인 </Link>
                 
                 <div className="flex w-full items-center justify-between gap-2">
                     <hr className="border-gray-400 w-full" />
