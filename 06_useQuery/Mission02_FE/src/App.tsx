@@ -9,6 +9,8 @@ import { GoogleLoginRedirectPage } from "./pages/GoogleLoginRedirectPage"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import HomePage from "./pages/HomePage"
+import LpDetailPage from "./pages/LpDetailPage"
+import { CommentsPage } from "./pages/CommentsPage"
 
 const publicRoutes = [
   {
@@ -29,7 +31,9 @@ const privateRoutes = [{
   element: <ProtectedLayout />,
   errorElement: <>오류가 발생했습니다.</>,
   children: [
-    {path: 'my', element: <MyPage />}
+    {path: 'my', element: <MyPage />},
+    {path: 'lp/:lpid', element: <LpDetailPage />},
+    {path: 'lp/:lpid/comments', element: <CommentsPage />}
   ],
 }]
 

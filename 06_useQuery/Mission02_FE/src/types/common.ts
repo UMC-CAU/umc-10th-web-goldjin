@@ -18,5 +18,12 @@ export type PaginationDto = {
     cursor?: number;
     limit?: number;
     search?: string;
-    order?: string;
+    order?: "asc" | "desc";
+}
+
+export type CommentDto = {
+    lpId: number;
+    cursor?: number;
+    limit?: number;
+    order?: "asc" | "desc";
 }

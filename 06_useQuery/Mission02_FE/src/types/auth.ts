@@ -34,12 +34,15 @@ export type ResponseSigninDto = CommonResponse<{
 }>;
 
 
-export type ResponseMyInfoDto = CommonResponse<{
+export type ResponseMyInfoDto = CommonResponse<Author>;
+
+
+export type Author = {
     id: number;
     name: string;
     email: string;
-    bio: string|null;
-    avatar: string|null;
+    bio?: string;
+    avatar?: string;
     createdAt: Date;
     updatedAt: Date;
-}>
+};
