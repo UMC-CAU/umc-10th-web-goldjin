@@ -2,11 +2,12 @@ import { createContext, useContext, useState, type PropsWithChildren } from "rea
 import type { RequestSigninDto } from "../types/auth"
 import { useLocalStorage } from "../hooks/useLocalStorage"
 import { LOCAL_STORAGE_KEY } from "../constants/key"
-import { postSignin, postSignout } from "../apis/auth"
+import { getMyInfo, postSignin, postSignout } from "../apis/auth"
 
 interface AuthContextType {
     accessToken: string | null
     refreshToken: string | null
+    userId: number | null
     login: (signindata: RequestSigninDto) => Promise<void>
     logout: () => Promise<void>
 }
@@ -14,6 +15,7 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
     accessToken: null,
     refreshToken: null,
+    userId: null,
     login: async () => {},
     logout: async () => {}
 })
@@ -24,6 +26,16 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
 
     const [accessToken, setAccessToken] = useState<string | null>(getAccessToken());
     const [refreshToken, setRefreshToken] = useState<string | null>(getRefreshToken());
+    const [userId, setUserId] = useState<number | null>(null);
+
+    const fetchMyInfo = async () => {
+        try {
+            const { data } = await getMyInfo();
+            setUserId(data.id);
+        } catch (error) {
+            console.error("내 정보 조회 중 오류가 발생했습니다.", error);
+        }
+    };
 
     const login = async (signinData: RequestSigninDto) => {
         try {
@@ -32,6 +44,7 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
             setRefreshTokenInStorage(data.refreshToken);
             setAccessToken(data.accessToken);
             setRefreshToken(data.refreshToken);
+            setUserId(data.id);
         } catch (error) {
             console.error("로그인 중 오류가 발생했습니다.", error);
         }
@@ -50,8 +63,10 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
         }
     };
 
+    fetchMyInfo();
+
     return (
-        <AuthContext.Provider value={{ accessToken, refreshToken, login, logout }}>
+        <AuthContext.Provider value={{ accessToken, refreshToken, userId, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

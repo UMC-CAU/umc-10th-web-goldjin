@@ -3,12 +3,14 @@ import { useGetLpList } from "../hooks/queries/useGetLpList";
 import { Card } from "../components/Card";
 import { Link } from "react-router-dom"; // react-router 대신 react-router-dom이 안전합니다.
 import { OrderButton } from "../components/OrderButton";
+import { CreateModal } from "../components/CreateModal";
 
 type orderType = "asc" | "desc";
 
 const HomePage = () => {
     const [search, setSearch] = useState("");
     const [order, setOrder] = useState<orderType>("desc");
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
     const { 
         data: response, 
@@ -84,12 +86,15 @@ const HomePage = () => {
             </div>
 
             {/* 글쓰기 플로팅 버튼 */}
-            <Link 
+            <button 
                 className="flex items-center justify-center w-16 h-16 fixed rounded-full bg-pink-500 bottom-10 right-10 shadow-lg hover:bg-pink-600 transition-colors z-50" 
-                to="/create"
+                onClick={() => setIsCreateModalOpen(true)}
             >
                 <p className="text-3xl font-bold text-white">+</p>
-            </Link>
+            </button>
+
+            {/* 글쓰기 모달 */}
+            {isCreateModalOpen && (<CreateModal setIsCreateModalOpen={setIsCreateModalOpen}/>)}
         </div>
     );
 };

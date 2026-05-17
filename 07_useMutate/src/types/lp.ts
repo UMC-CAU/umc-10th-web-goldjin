@@ -55,3 +55,11 @@ export type responseCommentsDto = CommonResponse<{
     nextCursor: number | null;
     hasNext: boolean;
 }>
+
+export type requestLpDto = {
+    title: string;
+    content: string;
+    thumbnail: string;
+    tags: string[];
+    published: boolean;
+}

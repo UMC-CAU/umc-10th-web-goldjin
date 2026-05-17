@@ -25,4 +25,7 @@ export const postSignout = async () => {
     return data;
 }
 
+export const upDateMyInfo = async (body: { name: string; bio?: string; avatar?: string}) => {
+    return await axiosInstance.patch("/v1/users", body);
+}
 
