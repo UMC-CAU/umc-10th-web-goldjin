@@ -7,9 +7,7 @@ export const useLike = () => {
   return useMutation({
     mutationKey: ["likeToggle"],
     
-    // 1. 폼이나 컴포넌트에서 넘겨줄 때는 객체로 받되,
     mutationFn: async ({ lpId, isLiked }: { lpId: number; isLiked: boolean }) => {
-      // 2. ✅ 실제 API 함수를 호출할 때는 'lpId' 숫자만 쏙 발라내서 보내줍니다!
       if (isLiked) {
         return unlikeLp(lpId); 
       } else {
@@ -17,7 +15,7 @@ export const useLike = () => {
       }
     },
     
-    // 이 아래 낙관적 업데이트 로직은 기존과 동일합니다.
+
     onMutate: async ({ lpId, isLiked }) => {
       await qc.cancelQueries({ queryKey: ["lps", lpId] });
 

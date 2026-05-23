@@ -5,13 +5,9 @@ import { useEffect, useState } from 'react';
 
 
 const RootLayout = () => {
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
-
   const toggleSidebar = () => {
-
     setIsSidebarOpen((prev) => !prev);
 
   }
@@ -19,31 +15,23 @@ const RootLayout = () => {
 
 
   useEffect(() => {
-
   const handleResize = () => {
-
     setIsMobile(window.innerWidth < 1024);
-
   };
 
 
 
   if (isMobile) {
-
     setIsSidebarOpen(false);
-
   }
 
   window.addEventListener('resize', handleResize);
-
   return () => window.removeEventListener('resize', handleResize);
-
   }, [isMobile]);
 
 
 
   return (
-
     <div className='min-h-screen flex flex-col'>
       <Navbar toggleSidebar={toggleSidebar} />
       <div className={`flex-1 ${isMobile || !isSidebarOpen ? 'relative' : 'flex'}`}>
@@ -54,6 +42,7 @@ const RootLayout = () => {
         `}>
           <Sidebar toggleSidebar={toggleSidebar} />
         </aside>
+        
         <div className='flex justify-center w-full p-4'>
           <Outlet />
           {isMobile && isSidebarOpen && (
