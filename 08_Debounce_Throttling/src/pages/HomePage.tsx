@@ -1,16 +1,23 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import { useGetLpList } from "../hooks/queries/useGetLpList";
 import { Card } from "../components/Card";
 import { Link } from "react-router-dom"; // react-router 대신 react-router-dom이 안전합니다.
 import { OrderButton } from "../components/OrderButton";
 import { CreateModal } from "../components/CreateModal";
+import { useSearch } from "../contexts/searchContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useDebounce } from "../hooks/useDebounce";
 
 type orderType = "asc" | "desc";
 
 const HomePage = () => {
+    const {isSearching} = useSearch();
+    const [searchInputText, setSearchInputText] = useState("");
     const [search, setSearch] = useState("");
     const [order, setOrder] = useState<orderType>("desc");
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const debouncedSearch = useDebounce<string>(searchInputText.trim());
 
     const { 
         data: response, 
@@ -22,6 +29,9 @@ const HomePage = () => {
     } = useGetLpList({ search, order });
 
     const sentinelRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        setSearch(debouncedSearch);
+    },[debouncedSearch])
 
     // 5. Intersection Observer 설정
     useEffect(() => {
@@ -43,47 +53,66 @@ const HomePage = () => {
     }, [fetchNextPage, hasNextPage, isFetchingNextPage, response]);
     // 의존성 배열: 이 값들이 바뀌면 useEffect가 다시 실행돼요
 
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearchInputText(value);
+    }
 
-    if (isLoading) return <div className="flex justify-center items-center h-screen text-white">Loading...</div>;
+
     if (isError) return <div className="flex justify-center items-center h-screen text-red-500">Error!</div>;
 
     return (
         <div className="p-6 w-full max-w-7xl mx-auto text-white">
+            {isSearching && 
+            <div className="mx-10">
+                <div className="flex items-center border-b border-white flex-1">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    <input placeholder="검색" className="py-2 px-4 flex-1" onChange={handleSearchChange}></input>
+                </div>
+                <p className="mt-6">최근 검색어</p>
+                <ul>
+
+                </ul>
+            </div>}
             {/* 정렬 버튼 영역 (명세서 기준: desc가 최신순, asc가 오래된 순) */}
             <div className="flex justify-end mb-8">
                 <OrderButton setOrder={setOrder} order={order} />
             </div>
             {/* 그리드 리스트 영역 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
-                {response?.pages
-                    .flatMap((page) => page?.data?.data || page?.data || [])
-                    .map((lp) => (
-                        <Link key={lp.id} to={`/lp/${lp.id}`} className="w-full flex justify-center">
-                            <Card 
-                                thumbnail={lp.thumbnail} 
-                                title={lp.title} 
-                                likes={lp.likes} 
-                                published={lp.createdAt}
-                            />
-                        </Link>
-                    ))
-                }
-                {isFetchingNextPage && (
-                        Array.from({ length: 10 }).map((_, i) => (
-                            <div key={i} className="animate-pulse bg-gray-300 w-56 h-56 mx-2" />
+            { isLoading? <div className="flex justify-center items-center h-screen text-white">Loading...</div>
+            : <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
+                    {response?.pages
+                        .flatMap((page) => page?.data?.data || page?.data || [])
+                        .map((lp) => (
+                            <Link key={lp.id} to={`/lp/${lp.id}`} className="w-full flex justify-center">
+                                <Card 
+                                    thumbnail={lp.thumbnail} 
+                                    title={lp.title} 
+                                    likes={lp.likes} 
+                                    published={lp.createdAt}
+                                />
+                            </Link>
                         ))
-                    
-                )}
-            </div>
+                    }
+                    {isFetchingNextPage && (
+                            Array.from({ length: 10 }).map((_, i) => (
+                                <div key={i} className="animate-pulse bg-gray-300 w-56 h-56 mx-2" />
+                            ))
+                        
+                    )}
+                </div>
 
-            <div ref={sentinelRef} className="h-4 w-full" />
+                <div ref={sentinelRef} className="h-4 w-full" />
 
-            {/* 8. 상태 메시지 */}
-            <div style={{ padding: 8, textAlign: 'center', color: '#666' }}>
-                {hasNextPage
-                    ? '아래로 스크롤하면 더 가져와요.'
-                    : '더 이상 데이터가 없어요.'}
-            </div>
+
+
+                <div style={{ padding: 8, textAlign: 'center', color: '#666' }}>
+                    {hasNextPage
+                        ? '아래로 스크롤하면 더 가져와요.'
+                        : '더 이상 데이터가 없어요.'}
+                </div>
+            </>}
 
             {/* 글쓰기 플로팅 버튼 */}
             <button 

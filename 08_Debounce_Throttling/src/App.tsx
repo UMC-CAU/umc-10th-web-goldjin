@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import HomePage from "./pages/HomePage"
 import LpDetailPage from "./pages/LpDetailPage"
 import { CommentsPage } from "./pages/CommentsPage"
+import { SearchProvider } from "./contexts/searchContext"
 
 const publicRoutes = [
   {
@@ -43,9 +44,11 @@ const queryClient = new QueryClient()
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+      <SearchProvider>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>
+      </SearchProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )

@@ -3,8 +3,15 @@ import { useAuth } from "../contexts/AuthContext"
 import { getMyInfo } from "../apis/auth";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons";
+import { useSearch } from "../contexts/searchContext";
 export const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
+
+    const {isSearching, setIsSearching} = useSearch();
+
+    const handleSearch = () => {
+        setIsSearching(!isSearching)
+    }
 
     const buttonClassName = ({ isActive }: { isActive: boolean }) => 
             `px-3 py-1 text-white ${isActive ? '' : 'rounded bg-pink-500'}`
@@ -46,7 +53,10 @@ export const Navbar = ({ toggleSidebar }: { toggleSidebar: () => void }) => {
                 )}
                 {accessToken && (
                     <>
-                        <p><FontAwesomeIcon icon={faMagnifyingGlass} className="mr-2"/>{name}님 환영합니다!</p>
+                        <p>
+                            <button onClick = {handleSearch}><FontAwesomeIcon icon={isSearching? faX : faMagnifyingGlass} className="mr-2 cursor-pointer"/></button>
+                            {name}님 환영합니다!
+                        </p>
                         <button onClick={logout} className="cursor-pointer" >
                             로그아웃
                         </button>
