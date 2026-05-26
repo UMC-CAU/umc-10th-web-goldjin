@@ -29,6 +29,7 @@ const HomePage = () => {
     } = useGetLpList({ search, order });
 
     const sentinelRef = useRef<HTMLDivElement | null>(null);
+    
     useEffect(() => {
         setSearch(debouncedSearch);
     },[debouncedSearch])
